@@ -1,0 +1,43 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration
+local.properties
+.idea/
+*.iml
+
+# Firebase
+google-services.json
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Kotlin
+*.class
+*.jar
+*.war
+*.ear
+
+# Log files
+*.log
+
+# Android Studio navigation editor temp files
+.navigation/
+
+# Jetpack Compose preview cache
+**/.cache/
+.compose-cache/
+
+# Unit test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Others
+.cxx/
