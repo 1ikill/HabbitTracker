@@ -1,54 +1,31 @@
 package com.example.habbittracker
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.habbittracker.ui.theme.HabbitTrackerTheme
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.app
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.habbittracker.presentation.navigation.NavGraph
+import com.example.habbittracker.presentation.viewmodel.SettingsViewModel
+import com.example.habbittracker.ui.theme.HabitTrackerTheme
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        // Firebase debug check
-        Log.d("FirebaseInit", "Firebase initialized: ${Firebase.app.name}")
 
         setContent {
-            HabbitTrackerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            val settingsViewModel: SettingsViewModel = hiltViewModel()
+            val isDarkMode by settingsViewModel.isDarkMode.collectAsState(initial = isSystemInDarkTheme())
+            
+            HabitTrackerTheme(darkTheme = isDarkMode) {
+                NavGraph()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HabbitTrackerTheme {
-        Greeting("Android")
     }
 }
